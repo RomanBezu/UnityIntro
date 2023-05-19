@@ -14,9 +14,18 @@ public class MyFirstProgramm : MonoBehaviour
         //Debug.Log("Hello world!");
         int Health = 100;
         int Damage=20;
-        Health -= Damage;
+        int Recharge=30;
 
+
+        Health -= Damage;
         Debug.Log("Current health is "+ Health);
+
+        Health -= Damage;
+        Debug.Log("Current health is "+ Health);
+        
+        Health+=Recharge;
+        Debug.Log ("Current hp is" + Health);
+        
 
 
 
