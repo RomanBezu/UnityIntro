@@ -4,32 +4,42 @@ using UnityEngine;
 
 public class MyFirstProgramm : MonoBehaviour
 {
+
+       [SerializeField] string Enemy;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(3);
-        //Debug.Log(2);
-        //Debug.Log(1);
+        int TargetRoom = 2;
+        Debug.Log("Вы начинаете осмотр комнат");
+        for(int room = 1; room < 5 ; room++)
+        {
+            Debug.Log ($"Вы вошли в комнату {room}");
+            if (room==TargetRoom)
+            {
+            Debug.Log($"Вы нашли нужную комнату! Номер комнаты {room}");
+            break;
+            }
+            else
+            {
+                for (int ugol=1; ugol<5;ugol++)
+                {
+                    Debug.Log ($"Вы посмотрели в угол №{ugol}");
+                }
+            }
+            Debug.Log($"Вы вышли из комнаты {room}");
 
-        //Debug.Log("Hello world!");
-        int Health = 100;
-        int Damage=20;
-        int Recharge=30;
 
-
-        Health -= Damage;
-        Debug.Log("Current health is "+ Health);
-
-        Health -= Damage;
-        Debug.Log("Current health is "+ Health);
-        
-        Health+=Recharge;
-        Debug.Log ("Current hp is" + Health);
-        
+            
+        }
+        Debug.Log("Вы окончили осмотр комнат!");
 
 
 
     }
+
+   
 }
 
     
