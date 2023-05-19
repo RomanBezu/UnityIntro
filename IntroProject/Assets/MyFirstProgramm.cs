@@ -13,12 +13,12 @@ public class MyFirstProgramm : MonoBehaviour
     {
         int TargetRoom = 2;
         Debug.Log("Вы начинаете осмотр комнат");
-        for(int room = 1; room < 5 ; room++)
+        for(int Room = 1; Room < 5 ; Room++)
         {
-            Debug.Log ($"Вы вошли в комнату {room}");
-            if (room==TargetRoom)
+            Debug.Log ($"Вы вошли в комнату {Room}");
+            if (Room==TargetRoom)
             {
-            Debug.Log($"Вы нашли нужную комнату! Номер комнаты {room}");
+            Debug.Log($"Вы нашли нужную комнату! Номер комнаты {Room}");
             break;
             }
             else
@@ -28,7 +28,7 @@ public class MyFirstProgramm : MonoBehaviour
                     Debug.Log ($"Вы посмотрели в угол №{ugol}");
                 }
             }
-            Debug.Log($"Вы вышли из комнаты {room}");
+            Debug.Log($"Вы вышли из комнаты {Room}");
 
 
             
