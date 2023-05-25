@@ -1,165 +1,161 @@
+using System.Runtime.InteropServices.ComTypes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MyFirstProgramm : MonoBehaviour
 {
- 
- /*
- [SerializeField] string itemTofound;
- [ContextMenu ("Find item")]
-        void FindItem ()
-        {
-             string [] inventory = {"меч", "монета","топор", "хлам", "хвост", "меч", "монета","топор", "хлам", "хвост"};
-
-             bool itemFound = false;
-             int itemcount=0;
-
-             foreach ( string item in inventory)
-             {
-                
-                if (item==itemTofound)
-                {
-                    itemFound=true;
-                    itemcount ++;
-                    
-                }
-             } 
-
-             if (itemFound)
-             {
-                Debug.Log ($"Предмет {itemTofound} найден, колество {itemcount} штук!");
-             }  
-             else 
-             Debug.Log ($"Предмет {itemTofound} не найден в инвентаре!");
-        }
-    */
+    /*
+    //Процедурное программирование - это когда иснтрукции выполняются последовательно группируясь в методы
 
 
-    // Start is called before the first frame update
-    int MyHealth=50;
+    string heroName = "Ilya";
+    int heroHp = 100;
+    int heroDamage = 20;
+
+    string enemyName = "Vrag";
+    int enemyHp = 50;
+    int enemyDamage = 10;
+
+
     void Start()
     {
-        Debug.Log ($"Старотовое здоровье {MyHealth}");
-                
-        EatApples (3,true);
-        EatApples (2,false);
-        EatApples (1,true);
-
-
-
-
-    }
-
-    private void EatApples (int Count, bool IsTasty)
-    {
-        if (IsTasty)
-        Debug.Log ($"Вы съели {Count} яблок и они были вкусные");
-        else
+        for (int battleTurn = 1; battleTurn<5; battleTurn++)
         {
-        Debug.Log ($"Вы съели {Count} яблок и они были невкусные");
-        }
-        Healing (Count, IsTasty);
-        Debug.Log ($"У вас осталось {MyHealth} здоровья");
-
-    }
-
-    private int Healing (int count, bool IsTasty)
-    {
-        if (IsTasty)
-        {
-            MyHealth+=10*count;
-           // Debug.Log ("ммм..вкуснятина");
-        }
-        else
-        {
-            MyHealth-=15*count;
-            //Debug.Log ("Тьфу гадость");
-
-        }
-        return MyHealth;
-
-
-    }
-        
-       
-
-        
-        
-        
-        
-        
-        
-        
-        
-        /*
-        int TargetRoom = 2;
-        Debug.Log("Вы начинаете осмотр комнат");
-        for(int Room = 1; Room < 5 ; Room++)
-        {
-            Debug.Log ($"Вы вошли в комнату {Room}");
-            if (Room==TargetRoom)
+            Debug.Log($" раунд {battleTurn} начинается!");
+            PrintAttack (enemyName,heroName);
+            heroHp-=enemyDamage;
+            if (heroHp<=0)
             {
-            Debug.Log($"Вы нашли нужную комнату! Номер комнаты {Room}");
-            break;
+                Debug.Log($"{heroName} погибает!");
+                break;
             }
             else
             {
-                for (int ugol=1; ugol<5;ugol++)
-                {
-                    Debug.Log ($"Вы посмотрели в угол №{ugol}");
-                }
+                PrintHp (heroName, heroHp);
             }
-            Debug.Log($"Вы вышли из комнаты {Room}");
-
-
+            PrintAttack (heroName, enemyName);
+            enemyHp-=heroDamage;
+            if (enemyHp<=0)
+            {
+                Debug.Log ($"{enemyName} погибает!");
+                break;
+            }
+            else PrintHp (enemyName, enemyHp);
             
         }
-        Debug.Log("Вы окончили осмотр комнат!");
 
-        */
+    }
 
-        /*
-        int [] numbers = { 21, 34, 162, 97, 456};
-        Debug.Log ($"Длинна массива {numbers.Length}");
+    public void PrintAttack (string Attacker, string Deffender)
+    {
+        Debug.Log ($"{Deffender} был атакован {Attacker}!");
 
-        foreach (int item in numbers)
-        {
-            Debug.Log ($"Элемент равен {item}");
+    }
 
-        }
-        */
-
-
-
-        /*
-        for (int index=0; index<numbers.Length; index++)
-        {
-            int item = numbers [index];
-            Debug.Log ($"Элемент номер {index} равен {item}");
-
-        }
-
-        
-        numbers [0] = 21;
-        numbers [1] =34;
-        numbers [2] = 162;
-        numbers [3] = 97;
-        numbers [4] = 456;
-        
-
-        var second  = numbers [2];
-        Debug.Log ($"Значение третьего элемента равно {second}");
-        */
-
-
-
-
-
-
-   
-
-   
-}
+    public void PrintHp (string name, int hp)
+    {
+        Debug.Log ($" у {name} осталось {hp} очков здоровья");
+    }
+       
+    */
 
     
+    private void Start ()
+    {
+        //инициализаця переменных нового класса
+        //это так же называется контест исполнения
+        ActorWithBuff hero = new ActorWithBuff ("Ilya", 40, 10, 12);
+        Actor [] enemies = {new Actor ("Vrag", 50, 10), new Actor ("Drug", 80, 15), new Actor ("Svoi", 40, 8)};
+        
+        Debug.Log("Let's mortalcombat begin!");
+
+        for (int turn=1; turn<5; turn++)
+        {            
+            Debug.Log ($"Раунд {turn} начинается!");
+            bool isHeroDead = false;
+            bool isAllEnemiesDead = true;
+
+            foreach (Actor enemy in enemies)
+            {
+                if (enemy.IsDead()) continue;
+                isHeroDead = Attack (enemy, hero);
+                if (isHeroDead) break;
+                //hero attack enemy
+                hero.UseBuff();  //герой бафается перед атакой
+                var isEnemyDead = Attack (hero, enemy);
+                isAllEnemiesDead = isAllEnemiesDead && isEnemyDead;                
+            }
+            if (isHeroDead || isAllEnemiesDead) break;
+        }
+    }
+
+    //Метод атаки
+    public bool Attack (Actor attacker, Actor deffender)
+    {
+        deffender.Hp-=attacker.Damage;
+         Debug.Log ($"{deffender.Name} был атакован {attacker.Name}!");
+         bool isDead = deffender.IsDead();
+         if (isDead)
+         {
+            PrintDead (deffender, attacker);
+         }
+         else PrintHp (deffender.Name, deffender.Hp );
+         return isDead;                 
+    }
+    
+    public void PrintDead (Actor deffender, Actor attacker)
+    {
+        Debug.Log ($"{deffender.Name} был убит {attacker.Name}");
+    }
+
+    public void PrintHp (string name, int hp)
+    {
+        Debug.Log ($" у {name} осталось {hp} очков здоровья");
+    }
+
+}
+
+// новый класс Эктора
+// он называется АБСТРАКЦИЯ
+public class Actor
+{
+    public string Name;
+    public int Hp;
+    public int Damage;
+
+    //ниже конструктор
+    public Actor (string name, int hp, int damage)
+    {
+        Name = name;
+        Hp = hp;
+        Damage = damage;
+        Debug.Log ($"В битву вступант игрок {Name}");
+        
+    }  
+
+    // выше конструктор
+
+    public bool IsDead()
+    {
+        return Hp<=0;
+    }
+
+}
+
+public class ActorWithBuff : Actor //Создание наследника
+{
+    int BuffValue;
+    //В конструкторе обязательно указываем базовые параметры от родителя
+    public ActorWithBuff (string name, int hp, int damage, int buffValue) : base (name, hp, damage)
+    {
+        BuffValue = buffValue;
+    }
+
+    //метод бафа
+    public void UseBuff ()
+    {
+     Damage +=BuffValue;
+     Debug.Log ($"{Name} издает воинственный клич! Урон увеличен на {BuffValue}");   
+    }
+}
